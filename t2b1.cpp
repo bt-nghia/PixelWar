@@ -1,7 +1,7 @@
 #include <iostream>
 
 using namespace std;
-
+// print num ber
 int main() 
 {
     int n;
