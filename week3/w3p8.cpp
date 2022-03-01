@@ -5,9 +5,8 @@ using namespace std;
 int main() {
     string text;
     getline(cin ,text);
-    cout << text.length() << "\n";
     for(int i = 0; i < text.length(); i++) {
-        if(i > text.length()-3 || text.substr(i, 4)!="Zeus") {
+        if(i > text.length()-4 || text.substr(i, 4)!="Zues") {
             cout << text[i]; 
         }
         else {
