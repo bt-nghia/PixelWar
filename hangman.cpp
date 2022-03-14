@@ -30,6 +30,7 @@ void startgame() {
 
     while(count > 0) {
         if(maxguess <= 0) {
+            system("CLS");
             printhang(maxguess);
             win = false;
             //printresult(win, secretword);
@@ -42,6 +43,7 @@ void startgame() {
             int temp = count;
             update(s, secretword, guess, count);
             if(count==temp) {maxguess--;}
+            system("CLS");
             printhang(maxguess);
             cout << s << "\n";
         }
