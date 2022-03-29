@@ -9,7 +9,7 @@ class Area {
         Area(double _l, double _b) : length(_l), breadth(_b) {}
 
         double returnArea() {
-            return (length+breadth)*2;
+            return (length*breadth);
         }
 };
 
