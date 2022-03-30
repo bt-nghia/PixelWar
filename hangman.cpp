@@ -62,7 +62,7 @@ string Generateguess(int n) {
 string GenerateSecretWord() {
     vector<string> wordset = {"nghianhgia","chipuflu","linhvan",
                             "cahoilolang","phomaibocuoi","nguoidep",
-                            "quaivat","occho","laptrinh","minzy",
+                            "quaivat","occho","laptrinh","minzy","maianh",
                             "chicken","insec","funny","meowmeow","wolfwolf"};
     int random = rand()%wordset.size();
     return wordset[random];
