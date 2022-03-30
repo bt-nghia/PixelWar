@@ -1,7 +1,3 @@
-#include <bits/stdc++.h>
-
-using namespace std;
-
 
 void rFilter(char *s) {
     // Your code goes here
@@ -15,12 +11,4 @@ void rFilter(char *s) {
             s[i] = '_';
         }
     }
-}
-
-int main() {
-    char *s;
-    s = new char[50];
-    cin >> s;
-    rFilter(s);
-    cout << s;
 }
