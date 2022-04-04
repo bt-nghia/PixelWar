@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-
+int n;
 int main() {
     // int m, n = 0;
     // cin >> m;
@@ -23,6 +23,7 @@ int main() {
             for(auto str1 : ans[j]) {
                 for(auto str2 : ans[i-j]) {
                     ans[i].push_back(str1+str2);
+                    ans[i].push_back(str2+str1);
                 }
             }
         }
@@ -36,3 +37,13 @@ int main() {
     }
     return 0;
 }
+
+// string backtrack(string s, int hieuso)
+// {
+//     if(s.size() == n)
+//     {
+//         cout << s << endl;
+//     }
+//     if(hieuso < n-1)
+//         backtrack(s + '',)
+// }

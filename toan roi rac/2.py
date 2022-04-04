@@ -3,7 +3,8 @@ def m(n : int) -> int:
         return n
     else :
         temp = n % 10
-        return min(m(int(n/10)), temp)
+        n = int(n/10)
+        return min(m(n), temp)
 
 
 if __name__=="__main__":

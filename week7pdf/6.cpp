@@ -10,17 +10,17 @@ int main() {
         int s;
         cin >> s;
         if(s==1) {
-            string x; int y;getline(cin, x); cin >> y;
+            string x; int y;cin >> x; cin >> y;
             point[x]+=y;
         }
         if(s==2) {
             string x;
-            getline(cin, x);
+            cin >> x;
             point[x] = 0;
         }
         if(s==3) {
             string x;
-            getline(cin, x);
+            cin >> x;
             cout << point[x] << "\n";
         }
     }
