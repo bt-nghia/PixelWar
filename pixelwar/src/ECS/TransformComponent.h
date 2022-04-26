@@ -7,10 +7,11 @@ public:
     Vector2D position;
     Vector2D velocity;
 
-    int speed = 3;// each move
-    int height = 32;
-    int width = 32;
-    int scale = 1;//ty le
+    int level = 1;
+    int speed = 2;
+    int height = 16;
+    int width = 16;
+    int scale = 2;
 
     TransformComponent() {
         position.Zero();
@@ -44,6 +45,16 @@ public:
     void setPosition(float x, float y) {
         position.x = x;
         position.y = y;
+    }
+
+    void levelup() {
+        level++;
+        scale++;
+    }
+
+    void xyset(int len) {
+        position.x+=len;
+        position.y+=len;
     }
 };
 

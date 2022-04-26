@@ -28,6 +28,11 @@ public:
                     break;
                 case SDLK_DOWN:
                     transform->velocity.y = 1;
+                    break;
+                case SDLK_SPACE:
+                    transform->scale = 4;
+                    transform->xyset(-16);
+                    break;
                 default:
                     break;
             }
@@ -45,6 +50,11 @@ public:
                     break;
                 case SDLK_DOWN:
                     transform->velocity.y = 0;
+                    break;
+                case SDLK_SPACE:
+                    transform->scale = 2;
+                    transform->xyset(16);
+                    break;
                 default:
                     break;
             }

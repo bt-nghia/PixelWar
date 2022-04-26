@@ -13,5 +13,4 @@ private:
     int xpos, ypos;
     SDL_Texture* backgr;
     SDL_Rect srcbg, destbg;
-    SDL_Renderer* renderer;
 };

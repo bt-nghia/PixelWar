@@ -10,6 +10,8 @@ public:
     std::string tag;
     TransformComponent* transform;
 
+    ColliderComponent();
+
     ColliderComponent(std::string t) {
         tag = t;
     }
