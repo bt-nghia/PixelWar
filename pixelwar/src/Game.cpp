@@ -8,11 +8,11 @@
 #include <vector>
 
 BackGround* bg;
-Map* map;
+// Map* map;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Manager manager;
-static auto& player(manager.addEntity());
+auto& player(manager.addEntity());
 auto& rock(manager.addEntity());
 auto& ene1(manager.addEntity());
 auto& ene2(manager.addEntity());
@@ -20,9 +20,7 @@ auto& ene3(manager.addEntity());
 std::vector<ColliderComponent*> Game::colliders;
 std::vector<TileComponent*> Game::tilecomponents;
 
-Game::Game() {
-    // player_tex = 0;
-}
+Game::Game() {}
 
 Game::~Game() {}
 
@@ -53,11 +51,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     bg = new BackGround("gameimg/tiles/floor/floor_5.png", 0, 0);
 
     //ECS
-    map = new Map();
+    // map = new Map();
 
     // player
     player.addComponent<TransformComponent>(300, 300);
-    player.addComponent<SpriteComponent>("gameimg/heroes/knight/knight_idle_spritesheet.png", 6, 100);
+    player.addComponent<SpriteComponent>("gameimg/heroes/knight/knight_run_spritesheet.png", true);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
 
@@ -77,7 +75,7 @@ void Game::handleEvent() {
     default:
         break;
     }
-
+    // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
 }
 
 void Game::update() {
@@ -97,7 +95,7 @@ void Game::update() {
 void Game::render() {
     SDL_RenderClear(renderer);
     bg->RenderBackGround();
-    map->DrawMap();
+    // map->DrawMap();
     manager.draw();
     SDL_RenderPresent(renderer);
 }

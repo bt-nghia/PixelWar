@@ -6,11 +6,15 @@
 // #include "Collision.h"
 
 class KeyboardController : public Component {
+private:
+    int lastkey = 0;
+    
 public:
     TransformComponent* transform;
-
+    SpriteComponent* sprite;
     void init() override {
         transform = &entity->getComponent<TransformComponent>();
+        sprite = &entity->getComponent<SpriteComponent>();
     }
 
     // controller
@@ -19,15 +23,27 @@ public:
             switch (Game::event.key.keysym.sym) {
                 case SDLK_LEFT:
                     transform->velocity.x = -1;
+                    // sprite->setTexture("gameimg/heros/knight/knight_run_spritesheet");
+                    lastkey = 1;
+                    sprite->Play("Walk");
+                    sprite->flip = SDL_FLIP_HORIZONTAL;
                     break;
                 case SDLK_RIGHT:
                     transform->velocity.x = 1;
+                    // sprite->setTexture("gameimg/heros/knight/knight_run_spritesheet");
+                    lastkey = 0;
+                    sprite->Play("Walk");
+                    // sprite->flip = SDL_FLIP_HORIZONTAL;
                     break;
                 case SDLK_UP:
                     transform->velocity.y = -1;
+                    // sprite->setTexture("gameimg/heros/knight/knight_run_spritesheet");
+                    sprite->Play("Walk");
                     break;
                 case SDLK_DOWN:
                     transform->velocity.y = 1;
+                    // sprite->setTexture("gameimg/heros/knight/knight_run_spritesheet");
+                    sprite->Play("Walk");
                     break;
                 case SDLK_SPACE:
                     transform->scale = 4;
@@ -41,15 +57,25 @@ public:
             switch(Game::event.key.keysym.sym) {
                 case SDLK_LEFT:
                     transform->velocity.x = 0;
+                    // sprite->setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
+                    sprite->Play("Idle");
+                    sprite->flip = SDL_FLIP_NONE;
                     break;
                 case SDLK_RIGHT:
                     transform->velocity.x = 0;
+                    // sprite->setTexture("gameimg/heros/knight/knight_idle_spritesheet.png");
+                    sprite->Play("Idle");
+                    // sprite->flip = SDL_FLIP_HORIZONTAL;
                     break;
                 case SDLK_UP:
                     transform->velocity.y = 0;
+                    // sprite->setTexture("gameimg/heros/knight/knight_idle_spritesheet.png");
+                    sprite->Play("Idle");
                     break;
                 case SDLK_DOWN:
                     transform->velocity.y = 0;
+                    // sprite->setTexture("gameimg/heros/knight/knight_idle_spritesheet.png");
+                    sprite->Play("Idle");
                     break;
                 case SDLK_SPACE:
                     transform->scale = 2;
@@ -58,6 +84,12 @@ public:
                 default:
                     break;
             }
+        }
+        if(lastkey==1) {
+            sprite->flip = SDL_FLIP_HORIZONTAL;
+        }
+        else {
+            sprite->flip = SDL_FLIP_NONE;
         }
     }
 };

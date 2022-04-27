@@ -30,7 +30,7 @@ public:
                 path = const_cast<char*>("gameimg/tiles/wall/wall_1.png");
                 break;
             // case 2:
-            //     path = const_cast<char*>("gameimg/tiles/wall/wall_2.png");
+            //     path = const_cast<char*>("gameimg/heros/knight/knight_run_spritesheet.png");
             //     break;
             default:
                 // path = const_cast<char*>("gameimg/tiles/wall/wall_arch_left.png");
