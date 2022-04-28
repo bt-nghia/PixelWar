@@ -47,9 +47,9 @@ public:
         position.y = y;
     }
 
-    void levelup() {
-        level++;
-        scale++;
+    void levelup(int le) {
+        level+=le;
+        scale+=le;
     }
 
     void xyset(int len) {

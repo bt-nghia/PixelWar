@@ -15,6 +15,10 @@ public:
     int tileID;
     TileComponent() = default;
 
+    TileComponent(int id) {
+        tileID = id;
+    }
+
     TileComponent(int x, int y, int w, int h, int id) {
         tileRect.x = x;
         tileRect.y = y;
@@ -22,18 +26,20 @@ public:
         tileRect.h = h;
         tileID = id;
         
-        switch (tileID) {
-            // case 0:
-            //     path = const_cast<char*>("gameimg/tiles/floor/floor_1.png");
-            //     break;
+        switch (id) {
+            case 0:
+                path = const_cast<char*>("gameimg/tiles/floor/floor_1.png");
+                break;
             case 1:
                 path = const_cast<char*>("gameimg/tiles/wall/wall_1.png");
                 break;
-            // case 2:
-            //     path = const_cast<char*>("gameimg/heros/knight/knight_run_spritesheet.png");
-            //     break;
+            case 2:
+                path = const_cast<char*>("gameimg/tiles/wall/wall_2.png");
+                break;
+            case 10:
+                path = const_cast<char*>("gameimg/enemies/flyingcreature/fly_anim_spritesheet.png");
+                break;
             default:
-                // path = const_cast<char*>("gameimg/tiles/wall/wall_arch_left.png");
                 break;
         }
     }

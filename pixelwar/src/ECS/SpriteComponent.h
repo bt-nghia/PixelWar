@@ -18,10 +18,8 @@ private:
     int frames = 0;
     int animIndex = 0;
 
-
 public:
     SDL_RendererFlip flip = SDL_FLIP_NONE;
-    // int animIndex = 0;
     std::map<const char*, Animation> animations;
 
     SpriteComponent() = default;
@@ -30,11 +28,11 @@ public:
         setTexture(path);
     }
 
-    SpriteComponent(const char* path, bool isAnimated) {
+    SpriteComponent(const char* path, bool isAnimated, int frame) {
         animated = isAnimated;
         // SDL_RendererFlip fLip = SDL_FLIP_HORIZONTAL;
-        Animation idle = Animation(0, 6, 100);
-        Animation walk = Animation(0, 6, 100);
+        Animation idle = Animation(0, frame, 100);
+        Animation walk = Animation(0, frame, 100);
 
         animations.emplace("Idle", idle);
         animations.emplace("Walk", walk);
@@ -64,7 +62,9 @@ public:
             srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
         }
 
+        // * animindex in img
         srcRect.y = animIndex * transfrom->height;
+
 
         destRect.x = static_cast<int>(transfrom->position.x);
         destRect.y = static_cast<int>(transfrom->position.y);

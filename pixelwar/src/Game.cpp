@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "BackGround.h"
-#include "TileMap.h"
+#include "Map.h"
 #include "ECS/ECS.h"
 #include "ECS/Component.h"
 #include "Collision.h"
@@ -8,7 +8,6 @@
 #include <vector>
 
 BackGround* bg;
-// Map* map;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Manager manager;
@@ -20,7 +19,9 @@ auto& ene3(manager.addEntity());
 std::vector<ColliderComponent*> Game::colliders;
 std::vector<TileComponent*> Game::tilecomponents;
 
-Game::Game() {}
+Game::Game() {
+    // player_tex = 0;
+}
 
 Game::~Game() {}
 
@@ -52,10 +53,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     //ECS
     // map = new Map();
-
+    // Map::LoadMap(/*"map6x6.txt",*/ 6, 6);
     // player
     player.addComponent<TransformComponent>(300, 300);
-    player.addComponent<SpriteComponent>("gameimg/heroes/knight/knight_run_spritesheet.png", true);
+    player.addComponent<SpriteComponent>("gameimg/heroes/knight/knight_run_spritesheet.png", true, 6);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
 
@@ -64,6 +65,16 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     // rock
     rock.addComponent<TileComponent>(200, 200, 32, 32, 1);
     rock.addComponent<ColliderComponent>("rock");
+
+    ene1.addComponent<TransformComponent>(400, 400);
+    // ene1.addComponent<TileComponent>(10);
+    ene1.addComponent<SpriteComponent>("gameimg/enemies/flyingcreature/fly_anim_spritesheet.png", true, 4);
+    // ene1.addComponent<TileComponent>(10);
+    ene1.addComponent<ColliderComponent>("flyingcreature");
+
+    // Map::LoadMap(/*"map6x6.txt",*/ 6, 6);
+    Game::AddTile(1,1*32,1*32);
+    Game::AddTile(2, 2*32, 4*32);
 }
 
 void Game::handleEvent() {
@@ -75,20 +86,47 @@ void Game::handleEvent() {
     default:
         break;
     }
-    // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
+
 }
 
 void Game::update() {
     bg->UpdateBackGround();
     manager.refresh();
     manager.update();
-    for(int i = 1; i < colliders.size(); i++) {
-        if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i]) && (tilecomponents[i]->tileID==1)) {
-            // player.getComponent<TransformComponent>().scale = 1;
-            player.getComponent<TransformComponent>().velocity * -1;
-            Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
-            // player.getComponent<TransformComponent>().levelup();
+    if(player.getComponent<TransformComponent>().scale>=1) {
+        for(int i = 1; i < colliders.size(); i++) {
+            if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i]) && (colliders[i]->tag=="rock" || colliders[i]->tag == "flyingcreature")) {
+                // player.getComponent<TransformComponent>().scale = 1;
+                player.getComponent<TransformComponent>().velocity * -1;
+                Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
+                // player.getComponent<TransformComponent>().levelup();
+                // if(tilecomponents[i]->tileID==1 ) {rock.destroy();}
+                // if(tilecomponents[i]->tileID==1) {
+                //     if(player.getComponent<TransformComponent>().scale==1) {
+                //         std::cout << "dead!\n";
+                //         colliders.erase(colliders.begin());
+                //         tilecomponents.erase(tilecomponents.begin());
+                //         player.destroy();
+                //     }
+                // }
+                if(colliders[i]->tag=="flyingcreature") {
+                    if(player.getComponent<TransformComponent>().scale >= 4) {
+                        ene1.destroy();
+                        colliders.erase(colliders.begin() + i);
+                    tilecomponents.erase(tilecomponents.begin() + i);
+                    }
+                    else {
+                        player.getComponent<TransformComponent>().levelup(-1);
+                    }
+                }
+                // ene1.destroy();
+                // colliders.erase(colliders.begin() + i);
+                // tilecomponents.erase(tilecomponents.begin() + i);       
+            }
         }
+    }
+    else {
+        std::cout << "gameover!";
     }
 }
 
