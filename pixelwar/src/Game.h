@@ -27,6 +27,8 @@ public:
     static std::vector<TileComponent*> tilecomponents;
     static SDL_Renderer* renderer;
     static SDL_Event event;
+    // static auto& player(manager.addEntity());
+    // static bool gameover;
     // static int player_tex;
 private:
     bool isRunning;

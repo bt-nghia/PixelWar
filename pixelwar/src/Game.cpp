@@ -7,21 +7,28 @@
 #include <iostream>
 #include <vector>
 
+int mpp[6][6] = {
+    {1,1,2,2,3,3},
+    {2,3,2,3,2,1},
+    {1,1,1,1,1,1},
+    {1,2,2,2,1,1},
+    {1,1,1,1,1,1},
+    {2,2,1,1,3,3}
+};
+
 BackGround* bg;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Manager manager;
-auto& player(manager.addEntity());
+static auto& player(manager.addEntity());
 auto& rock(manager.addEntity());
 auto& ene1(manager.addEntity());
 auto& ene2(manager.addEntity());
 auto& ene3(manager.addEntity());
 std::vector<ColliderComponent*> Game::colliders;
 std::vector<TileComponent*> Game::tilecomponents;
-
-Game::Game() {
-    // player_tex = 0;
-}
+bool gameover = false;
+Game::Game() {}
 
 Game::~Game() {}
 
@@ -75,6 +82,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     // Map::LoadMap(/*"map6x6.txt",*/ 6, 6);
     Game::AddTile(1,1*32,1*32);
     Game::AddTile(2, 2*32, 4*32);
+    for(int i = 0; i < 6; i++) {
+        for(int j = 0; j < 6; j++) {
+            Game::AddTile(mpp[i][j], i*32, j*32);
+        }
+    }
 }
 
 void Game::handleEvent() {
@@ -86,48 +98,61 @@ void Game::handleEvent() {
     default:
         break;
     }
-
+    if(gameover == true) {
+        isRunning = false;
+        std::cout << "game over!\n";
+    }
 }
 
 void Game::update() {
     bg->UpdateBackGround();
     manager.refresh();
     manager.update();
-    if(player.getComponent<TransformComponent>().scale>=1) {
-        for(int i = 1; i < colliders.size(); i++) {
-            if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i]) && (colliders[i]->tag=="rock" || colliders[i]->tag == "flyingcreature")) {
-                // player.getComponent<TransformComponent>().scale = 1;
-                player.getComponent<TransformComponent>().velocity * -1;
-                Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
-                // player.getComponent<TransformComponent>().levelup();
-                // if(tilecomponents[i]->tileID==1 ) {rock.destroy();}
-                // if(tilecomponents[i]->tileID==1) {
-                //     if(player.getComponent<TransformComponent>().scale==1) {
-                //         std::cout << "dead!\n";
-                //         colliders.erase(colliders.begin());
-                //         tilecomponents.erase(tilecomponents.begin());
-                //         player.destroy();
-                //     }
-                // }
-                if(colliders[i]->tag=="flyingcreature") {
-                    if(player.getComponent<TransformComponent>().scale >= 4) {
-                        ene1.destroy();
-                        colliders.erase(colliders.begin() + i);
-                    tilecomponents.erase(tilecomponents.begin() + i);
-                    }
-                    else {
-                        player.getComponent<TransformComponent>().levelup(-1);
-                    }
-                }
-                // ene1.destroy();
-                // colliders.erase(colliders.begin() + i);
-                // tilecomponents.erase(tilecomponents.begin() + i);       
-            }
-        }
-    }
-    else {
-        std::cout << "gameover!";
-    }
+    // if(player.getComponent<TransformComponent>().scale>=1) {
+    //     for(int i = 1; i < colliders.size(); i++) {
+    //         if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i]) && (colliders[i]->tag=="rock" || colliders[i]->tag == "flyingcreature")) {
+    //             // player.getComponent<TransformComponent>().scale = 1;
+    //             player.getComponent<TransformComponent>().velocity * -1;
+    //             Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
+    //             // player.getComponent<TransformComponent>().levelup();
+    //             // if(tilecomponents[i]->tileID==1 ) {rock.destroy();}
+    //             // if(tilecomponents[i]->tileID==1) {
+    //             //     if(player.getComponent<TransformComponent>().scale==1) {
+    //             //         std::cout << "dead!\n";
+    //             //         colliders.erase(colliders.begin());
+    //             //         tilecomponents.erase(tilecomponents.begin());
+    //             //         player.destroy();
+    //             //     }
+    //             // }
+    //             if(colliders[i]->tag=="flyingcreature") {
+    //                 if(player.getComponent<TransformComponent>().scale >= 4) {
+    //                     ene1.destroy();
+    //                     colliders.erase(colliders.begin() + i);
+    //                 tilecomponents.erase(tilecomponents.begin() + i);
+    //                 }
+    //                 else {
+    //                     player.getComponent<TransformComponent>().levelup(-1);
+    //                 }
+    //             }
+    //             // ene1.destroy();
+    //             // colliders.erase(colliders.begin() + i);
+    //             // tilecomponents.erase(tilecomponents.begin() + i);       
+    //         }
+    //         else {
+    //             if(player.getComponent<KeyboardController>().time%5==1) {
+    //             // SDL_Delay(2000);
+    //                 // player.getComponent<KeyboardController>().time+=2;
+    //                 ene1.getComponent<TransformComponent>().monstercome(1, 400, 320);
+    //                 player.getComponent<KeyboardController>().time+=2;
+    //             // SDL_Delay(2000);
+    //             }
+    //         }
+    //     }
+    // }
+    // else {
+    //     // std::cout << "gameover!";
+    //     gameover = true;
+    // }
 }
 
 void Game::render() {

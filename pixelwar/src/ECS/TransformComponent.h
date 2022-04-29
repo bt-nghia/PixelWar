@@ -56,5 +56,10 @@ public:
         position.x+=len;
         position.y+=len;
     }
+
+    void monstercome(int step, int x, int y) {
+        position.x+=1;
+        position.y+=1;
+    }
 };
 
