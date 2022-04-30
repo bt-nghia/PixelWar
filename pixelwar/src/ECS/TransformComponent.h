@@ -66,5 +66,14 @@ public:
     void hurt() {
         hp--;
     }
+
+    void setvelocity() {
+        if(velocity.x != 0) {
+            velocity.x = -velocity.x;
+        }
+        if(velocity.y != 0) {
+            velocity.y = -velocity.y;
+        }
+    }
 };
 

@@ -11,11 +11,12 @@ BackGround* bg;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Manager manager;
-static auto& player(manager.addEntity());
+// static auto& player(manager.addEntity());
 auto& rock(manager.addEntity());
 auto& ene1(manager.addEntity());
 auto& ene2(manager.addEntity());
 auto& ene3(manager.addEntity());
+auto& player(manager.addEntity());
 std::vector<ColliderComponent*> Game::colliders;
 std::vector<TileComponent*> Game::tilecomponents;
 bool gameover = false;
@@ -52,10 +53,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     //ECS
     // Map::LoadMap(/*"map6x6.txt",*/ 6, 6);
     // player
-    player.addComponent<TransformComponent>(300, 300);
-    player.addComponent<SpriteComponent>("gameimg/heroes/knight/knight_run_spritesheet.png", true, 6);
-    player.addComponent<KeyboardController>();
-    player.addComponent<ColliderComponent>("player");
+    // player.addComponent<TransformComponent>(300, 300);
+    // player.addComponent<SpriteComponent>("gameimg/heroes/knight/knight_run_spritesheet.png", true, 6);
+    // player.addComponent<KeyboardController>();
+    // player.addComponent<ColliderComponent>("player");
 
     // tilecomponents.push_back(nullptr);
 
@@ -67,8 +68,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     ene1.addComponent<SpriteComponent>("gameimg/enemies/flyingcreature/fly_anim_spritesheet.png", true, 4);
     ene1.addComponent<ColliderComponent>("flyingcreature");
 
-    tilecomponents.push_back(nullptr);
+    // tilecomponents.push_back(nullptr);
     Map::LoadMap();
+
+    player.addComponent<TransformComponent>(300, 300);
+    player.addComponent<SpriteComponent>("gameimg/heroes/knight/knight_run_spritesheet.png", true, 6);
+    player.addComponent<KeyboardController>();
+    player.addComponent<ColliderComponent>("player");
 }
 
 void Game::handleEvent() {
@@ -90,26 +96,29 @@ void Game::update() {
     bg->UpdateBackGround();
     manager.refresh();
     manager.update();
+    bool col = false;
     // std::cout << colliders.size() << " " << tilecomponents.size();
     if(player.getComponent<TransformComponent>().hp>=1) {
-        for(int i = 1; i < colliders.size(); i++) {
+        for(int i = 0; i < colliders.size()-1; i++) {
             if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i])) {
-                player.getComponent<TransformComponent>().velocity * -1;
+                // player.getComponent<TransformComponent>().velocity * -1;
                 Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
-            
-                if(colliders[i]->tag=="flyingcreature") {
-                    if(player.getComponent<TransformComponent>().scale >= 4) {
-                        ene1.destroy();
-                        colliders.erase(colliders.begin() + i);
-                    tilecomponents.erase(tilecomponents.begin() + i);
-                    }
-                    else {
-                        player.getComponent<TransformComponent>().hurt();
-                        std::cout << player.getComponent<TransformComponent>().hp << "\n";
-                    }
-                }
-                
+                col = true;
+                // if(colliders[i]->tag=="flyingcreature") {
+                //     if(player.getComponent<TransformComponent>().scale >= 4) {
+                //         ene1.destroy();
+                //         colliders.erase(colliders.begin() + i);
+                //     tilecomponents.erase(tilecomponents.begin() + i);
+                //     }
+                //     else {
+                //         player.getComponent<TransformComponent>().hurt();
+                //         std::cout << player.getComponent<TransformComponent>().hp << "\n";
+                //     }
+                // }
             }
+        }
+        if(col) {
+            player.getComponent<TransformComponent>().setvelocity();
         }
     }
     else {
@@ -133,6 +142,6 @@ void Game::clean() {
 
 void Game::AddTile(int id, int x, int y) {
     auto& tile(manager.addEntity());
-    tile.addComponent<TileComponent>(x, y, 32, 32, id);
+    tile.addComponent<TileComponent>(x, y, 31, 31, id);
     tile.addComponent<ColliderComponent>("wall");
 }

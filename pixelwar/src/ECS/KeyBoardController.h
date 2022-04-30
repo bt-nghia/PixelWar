@@ -8,8 +8,19 @@
 class KeyboardController : public Component {
 private:
     int lastkey = 0;
+    // int lastkeycollision = 0;
+    // // 1 left
+    // // 2 right
+    // // 3 top
+    // // 4 bot
 
 public:
+    int lastkeycollision = 0;
+    // 1 left
+    // 2 right
+    // 3 top
+    // 4 bot
+
     int time = 1;
     TransformComponent* transform;
     SpriteComponent* sprite;
