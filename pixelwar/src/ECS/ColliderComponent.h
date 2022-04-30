@@ -22,7 +22,7 @@ public:
         }
         transform = & entity->getComponent<TransformComponent>();
 
-        // Game::colliders.push_back(this);
+        Game::colliders.push_back(this);
     }
 
     void update() override {

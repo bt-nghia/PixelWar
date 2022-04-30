@@ -27,16 +27,16 @@ public:
         tileID = id;
         
         switch (id) {
-            case 1://0
-                path = const_cast<char*>("gameimg/tiles/floor/floor_1.png");
-                break;
-            case 2://1
+            case 1:
                 path = const_cast<char*>("gameimg/tiles/wall/wall_1.png");
                 break;
-            case 3://2
+            case 2:
                 path = const_cast<char*>("gameimg/tiles/wall/wall_2.png");
                 break;
-            case 10:
+            case 3:
+                path = const_cast<char*>("gameimg/tiles/wall/wall_3.png");
+                break;
+            case 10:// monster
                 path = const_cast<char*>("gameimg/enemies/flyingcreature/fly_anim_spritesheet.png");
                 break;
             default:
@@ -49,6 +49,6 @@ public:
         transform = &entity->getComponent<TransformComponent>();
         entity->addComponent<SpriteComponent>(path);
         sprite = &entity->getComponent<SpriteComponent>();
-        // Game::tilecomponents.push_back(this);
+        Game::tilecomponents.push_back(this);
     }
 };

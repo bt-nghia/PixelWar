@@ -8,7 +8,7 @@ public:
     Vector2D velocity;
 
     int level = 1;
-    int speed = 2;
+    int speed = 3;
     int height = 16;
     int width = 16;
     int scale = 2;
