@@ -17,8 +17,11 @@ auto& ene1(manager.addEntity());
 auto& ene2(manager.addEntity());
 auto& ene3(manager.addEntity());
 auto& player(manager.addEntity());
+auto& hp(manager.addEntity());
+
 std::vector<ColliderComponent*> Game::colliders;
 std::vector<TileComponent*> Game::tilecomponents;
+
 bool gameover = false;
 Game::Game() {}
 
@@ -76,6 +79,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
+
+    hp.addComponent<TransformComponent>(10, 10, 16, 80, 2);
+    hp.addComponent<SpriteComponent>("gameimg/uinew/health_ui.png");
+    // hp.addComponent<ColliderComponent>("health");
 }
 
 void Game::handleEvent() {
