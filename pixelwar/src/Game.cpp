@@ -75,9 +75,16 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     player.addComponent<SpriteComponent>("gameimg/heroes/knight/knight_run_spritesheet.png", true, 6);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
+    // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
 }
 
 void Game::handleEvent() {
+    if(player.getComponent<KeyboardController>().run == true) {
+        player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
+    }
+    else {
+        player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
+    }
     SDL_PollEvent(&event);
     switch (event.type) {
     case SDL_QUIT:

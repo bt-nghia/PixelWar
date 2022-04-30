@@ -8,19 +8,9 @@
 class KeyboardController : public Component {
 private:
     int lastkey = 0;
-    // int lastkeycollision = 0;
-    // // 1 left
-    // // 2 right
-    // // 3 top
-    // // 4 bot
 
 public:
-    int lastkeycollision = 0;
-    // 1 left
-    // 2 right
-    // 3 top
-    // 4 bot
-
+    bool run = false;
     int time = 1;
     TransformComponent* transform;
     SpriteComponent* sprite;
@@ -32,28 +22,26 @@ public:
     // controller
     void update() override {
         if(Game::event.type == SDL_KEYDOWN) {
+            run = true;
+            // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
             time++;
             switch (Game::event.key.keysym.sym) {
                 case SDLK_LEFT:
                     transform->velocity.x = -1;
                     lastkey = 1;
-                    // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
                     sprite->Play("Walk");
                     sprite->flip = SDL_FLIP_HORIZONTAL;
                     break;
                 case SDLK_RIGHT:
                     transform->velocity.x = 1;
-                    // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
                     lastkey = 0;
                     sprite->Play("Walk");
                     break;
                 case SDLK_UP:
                     transform->velocity.y = -1;
-                    // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
                     break;
                 case SDLK_DOWN:
                     transform->velocity.y = 1;
-                    // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
                     break;
                 case SDLK_z:
                     transform->scale = 4;
@@ -68,26 +56,24 @@ public:
             }
         }
         if(Game::event.type == SDL_KEYUP) {
+            // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
+            run = false;
             switch(Game::event.key.keysym.sym) {
                 case SDLK_LEFT:
                     transform->velocity.x = 0;
-                    // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
                     sprite->Play("Idle");
                     sprite->flip = SDL_FLIP_NONE;
                     break;
                 case SDLK_RIGHT:
                     transform->velocity.x = 0;
-                    // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
                     sprite->Play("Idle");
                     break;
                 case SDLK_UP:
                     transform->velocity.y = 0;
-                    // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
                     sprite->Play("Idle");
                     break;
                 case SDLK_DOWN:
                     transform->velocity.y = 0;
-                    // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
                     sprite->Play("Idle");
                     break;
                 case SDLK_z:
