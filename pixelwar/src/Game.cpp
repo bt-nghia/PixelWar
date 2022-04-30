@@ -91,7 +91,7 @@ void Game::update() {
     manager.refresh();
     manager.update();
     // std::cout << colliders.size() << " " << tilecomponents.size();
-    if(player.getComponent<TransformComponent>().scale>=1) {
+    if(player.getComponent<TransformComponent>().hp>=1) {
         for(int i = 1; i < colliders.size(); i++) {
             if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i])) {
                 player.getComponent<TransformComponent>().velocity * -1;
@@ -104,7 +104,8 @@ void Game::update() {
                     tilecomponents.erase(tilecomponents.begin() + i);
                     }
                     else {
-                        player.getComponent<TransformComponent>().levelup(-1);
+                        player.getComponent<TransformComponent>().hurt();
+                        std::cout << player.getComponent<TransformComponent>().hp << "\n";
                     }
                 }
                 

@@ -44,9 +44,13 @@ public:
                     transform->velocity.y = 1;
                     // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
                     break;
-                case SDLK_SPACE:
-                    transform->scale *= 2;
+                case SDLK_z:
+                    transform->scale = 4;
                     transform->xyset(-16);
+                    break;
+                case SDLK_x:
+                    transform->scale = 1;
+                    transform->xyset(8);
                     break;
                 default:
                     break;
@@ -75,9 +79,13 @@ public:
                     // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
                     sprite->Play("Idle");
                     break;
-                case SDLK_SPACE:
-                    transform->scale /= 2;
+                case SDLK_z:
+                    transform->scale = 2;
                     transform->xyset(16);
+                    break;
+                case SDLK_x:
+                    transform->scale = 2;
+                    transform->xyset(-8);
                     break;
                 default:
                     break;

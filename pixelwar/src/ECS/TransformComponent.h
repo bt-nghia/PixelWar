@@ -12,6 +12,7 @@ public:
     int height = 16;
     int width = 16;
     int scale = 2;
+    int hp = 4;
 
     TransformComponent() {
         position.Zero();
@@ -60,6 +61,10 @@ public:
     void monstercome(int step, int x, int y) {
         position.x+=1;
         position.y+=1;
+    }
+
+    void hurt() {
+        hp--;
     }
 };
 
