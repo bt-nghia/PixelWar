@@ -81,4 +81,13 @@ public:
         animIndex = animations[animName].index;
         speed = animations[animName].speed;
     }
+
+    void setframes(int x) {
+        frames = x;
+    }
+
+    void change_width_height(int wid_hig) {
+        transfrom->width = wid_hig;
+        transfrom->height = wid_hig;
+    }
 };
