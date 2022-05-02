@@ -49,10 +49,10 @@ public:
                     animations = 1;
                     transform->velocity.y = 1;
                     break;
-                case SDLK_z:
-                    transform->scale = 4;
-                    transform->xyset(-16);
-                    break;
+                // case SDLK_z:
+                //     transform->scale = 4;
+                //     transform->xyset(-16);
+                //     break;
                 case SDLK_x:
                     transform->scale = 1;
                     transform->xyset(8);
@@ -88,10 +88,10 @@ public:
                     transform->velocity.y = 0;
                     sprite->Play("Idle");
                     break;
-                case SDLK_z:
-                    transform->scale = 2;
-                    transform->xyset(16);
-                    break;
+                // case SDLK_z:
+                //     transform->scale = 2;
+                //     transform->xyset(16);
+                //     break;
                 case SDLK_x:
                     transform->scale = 2;
                     transform->xyset(-8);
