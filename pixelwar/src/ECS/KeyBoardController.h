@@ -10,11 +10,13 @@ private:
     int lastkey = 0;
 
 public:
-    // bool run = false;
+    int max_bombs = 2;
     int animations = 0;
     int time = 1;
+
     TransformComponent* transform;
     SpriteComponent* sprite;
+
     void init() override {
         transform = &entity->getComponent<TransformComponent>();
         sprite = &entity->getComponent<SpriteComponent>();
@@ -23,23 +25,18 @@ public:
     // controller
     void update() override {
         if(Game::event.type == SDL_KEYDOWN) {
-            // run = true;
-            // animations = 1;
-            // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
             time++;
             switch (Game::event.key.keysym.sym) {
                 case SDLK_LEFT:
                     animations = 1;
                     transform->velocity.x = -1;
                     lastkey = 1;
-                    // sprite->Play("Walk");
                     sprite->flip = SDL_FLIP_HORIZONTAL;
                     break;
                 case SDLK_RIGHT:
                     animations = 1;
                     transform->velocity.x = 1;
                     lastkey = 0;
-                    // sprite->Play("Walk");
                     break;
                 case SDLK_UP:
                     animations = 1;
@@ -49,27 +46,19 @@ public:
                     animations = 1;
                     transform->velocity.y = 1;
                     break;
-                // case SDLK_z:
-                //     transform->scale = 4;
-                //     transform->xyset(-16);
-                //     break;
                 case SDLK_x:
                     transform->scale = 1;
                     transform->xyset(8);
                     break;
                 case SDLK_SPACE:
-                    animations = 2;
-                    transform->scale = 4;
-                    transform->xyset(-16);
+                    // if(max_bombs > 0) {max_bombs--;}
                     break;
                 default:
                     break;
             }
         }
         if(Game::event.type == SDL_KEYUP) {
-            // player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
             animations = 0;
-            // run = false;
             switch(Game::event.key.keysym.sym) {
                 case SDLK_LEFT:
                     transform->velocity.x = 0;
@@ -88,17 +77,15 @@ public:
                     transform->velocity.y = 0;
                     sprite->Play("Idle");
                     break;
-                // case SDLK_z:
-                //     transform->scale = 2;
-                //     transform->xyset(16);
-                //     break;
                 case SDLK_x:
                     transform->scale = 2;
                     transform->xyset(-8);
                     break;
                 case SDLK_SPACE:
-                    transform->scale = 2;
-                    transform->xyset(16);
+                    if(max_bombs >= 0) {
+                        Game::PlantTheBomb(transform->position.x, transform->position.y);
+                        max_bombs--;
+                    }
                     break;
                 default:
                     break;

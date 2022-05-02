@@ -21,15 +21,15 @@ public:
     void pickcharacter();
     bool running() { return isRunning; };
 
+    static void PlantTheBomb(int x, int y);
     static void AddTile(int id, int x, int y);
-    // static std::vector<std::vector<Entity>> map;
     static std::vector<ColliderComponent*> colliders;
     static std::vector<TileComponent*> tilecomponents;
+    static std::vector<ColliderComponent*> bombs;
+    static std::vector<int> timetodestroy;
     static SDL_Renderer* renderer;
     static SDL_Event event;
-    // static auto& player(manager.addEntity());
-    // static bool gameover;
-    // static int player_tex;
+
 private:
     bool isRunning;
     SDL_Window* window;

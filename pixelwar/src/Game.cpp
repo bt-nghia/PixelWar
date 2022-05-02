@@ -26,6 +26,8 @@ auto& hp(manager.addEntity());
 
 std::vector<ColliderComponent*> Game::colliders;
 std::vector<TileComponent*> Game::tilecomponents;
+std::vector<ColliderComponent*> Game::bombs;
+std::vector<int> Game::timetodestroy;
 
 bool gameover = false;
 
@@ -94,10 +96,10 @@ void Game::handleEvent() {
         player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
         player.getComponent<SpriteComponent>().setframes(6);
     }
-    else if(player.getComponent<KeyboardController>().animations == 2) {
-        player.getComponent<SpriteComponent>().setTexture("gameimg/ex16x16.png");
-        player.getComponent<SpriteComponent>().setframes(1);
-    }
+    // else if(player.getComponent<KeyboardController>().animations == 2) {
+    //     player.getComponent<SpriteComponent>().setTexture("gameimg/ex16x16.png");
+    //     player.getComponent<SpriteComponent>().setframes(1);
+    // }
     else {
         player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
         player.getComponent<SpriteComponent>().setframes(6);
@@ -124,7 +126,6 @@ void Game::update() {
     manager.update();
 
     bool col = false;
-    // int player.getComponent<TransformComponent>().hp = player.getComponent<TransformComponent>().hp;
     if(player.getComponent<TransformComponent>().hp >= 1) {
         for(int i = 0; i < colliders.size()-1; i++) {
             if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i])) {
@@ -177,4 +178,12 @@ void Game::AddTile(int id, int x, int y) {
     auto& tile(manager.addEntity());
     tile.addComponent<TileComponent>(x, y, 31, 31, id);
     tile.addComponent<ColliderComponent>("wall");
+}
+
+void Game::PlantTheBomb(int x, int y) {
+    auto& bomb(manager.addEntity());
+    bomb.addComponent<TransformComponent>(x, y);
+    bomb.addComponent<SpriteComponent>("gameimg/bomb.png");
+    timetodestroy.push_back(4);// 4 second to explosion
+    bombs.push_back(&bomb.getComponent<ColliderComponent>());
 }
