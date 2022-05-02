@@ -16,6 +16,10 @@ auto& rock(manager.addEntity());
 auto& ene1(manager.addEntity());
 auto& ene2(manager.addEntity());
 auto& ene3(manager.addEntity());
+auto& ene4(manager.addEntity());
+auto& ene5(manager.addEntity());
+auto& ene6(manager.addEntity());
+// auto& key(manager.addEntity());
 auto& blood1(manager.addEntity());
 auto& blood2(manager.addEntity());
 auto& blood3(manager.addEntity());
@@ -66,6 +70,30 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     ene1.addComponent<TransformComponent>(400, 400);
     ene1.addComponent<SpriteComponent>("gameimg/enemies/flyingcreature/fly_anim_spritesheet.png", true, 4);
     ene1.addComponent<ColliderComponent>("flyingcreature");
+
+    ene4.addComponent<TransformComponent>(420, 430);
+    ene4.addComponent<SpriteComponent>("gameimg/enemies/flyingcreature/fly_anim_spritesheet.png", true, 4);
+    ene4.addComponent<ColliderComponent>("flyingcreature");
+
+    ene5.addComponent<TransformComponent>(450, 380);
+    ene5.addComponent<SpriteComponent>("gameimg/enemies/flyingcreature/fly_anim_spritesheet.png", true, 4);
+    ene5.addComponent<ColliderComponent>("flyingcreature");
+
+    ene2.addComponent<TransformComponent>(150, 300);
+    ene2.addComponent<SpriteComponent>("gameimg/enemies/goblin/goblin_idle_spritesheet.png", true, 6);
+    ene2.addComponent<ColliderComponent>("goblin");
+
+    ene3.addComponent<TransformComponent>(250, 140);
+    ene3.addComponent<SpriteComponent>("gameimg/enemies/slime/slime_idle_spritesheet.png", true, 6);
+    ene3.addComponent<ColliderComponent>("slime");
+
+    ene6.addComponent<TransformComponent>(290, 150);
+    ene6.addComponent<SpriteComponent>("gameimg/enemies/slime/slime_idle_spritesheet.png", true, 6);
+    ene6.addComponent<ColliderComponent>("slime");
+
+    // key.addComponent<TransformComponent>(120, 120);
+    // key.addComponent<SpriteComponent>("gameimg/props_itens/key_silver.png");
+    // key.addComponent<ColliderComponent>("key");
 
     Map::LoadMap();
 
@@ -131,7 +159,7 @@ void Game::update() {
             if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i])) {
                 Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
                 col = true;
-                if(colliders[i]->tag=="flyingcreature") {
+                if(colliders[i]->tag=="flyingcreature" || colliders[i]->tag=="goblin" || colliders[i]->tag=="slime") {
                     // player.getComponent<TransformComponent>().setvelocity();
 
                     if(player.getComponent<TransformComponent>().scale >= 4) {
@@ -144,6 +172,10 @@ void Game::update() {
                         std::cout << player.getComponent<TransformComponent>().hp << "\n";
                     }
                 }
+                // if(colliders[i]->tag=="key") {
+                //     colliders.erase(colliders.begin() + i);
+                //     tilecomponents.erase(tilecomponents.begin() + i);
+                // }
             }
         }
 
@@ -177,7 +209,8 @@ void Game::clean() {
 void Game::AddTile(int id, int x, int y) {
     auto& tile(manager.addEntity());
     tile.addComponent<TileComponent>(x, y, 31, 31, id);
-    tile.addComponent<ColliderComponent>("wall");
+    if(id==6) {tile.addComponent<ColliderComponent>("key");}
+    else {tile.addComponent<ColliderComponent>("wall");}
 }
 
 void Game::PlantTheBomb(int x, int y) {

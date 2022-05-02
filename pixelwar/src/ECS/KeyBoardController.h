@@ -3,14 +3,13 @@
 #include "../Game.h"
 #include "ECS.h"
 #include "Component.h"
-// #include "Collision.h"
 
 class KeyboardController : public Component {
 private:
     int lastkey = 0;
 
 public:
-    int max_bombs = 2;
+    int max_bombs = 4;
     int animations = 0;
     int time = 1;
 
@@ -82,7 +81,7 @@ public:
                     transform->xyset(-8);
                     break;
                 case SDLK_SPACE:
-                    if(max_bombs >= 0) {
+                    if(max_bombs > 0) {
                         Game::PlantTheBomb(transform->position.x, transform->position.y);
                         max_bombs--;
                     }

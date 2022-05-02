@@ -36,6 +36,15 @@ public:
             case 3:
                 path = const_cast<char*>("gameimg/tiles/wall/wall_3.png");
                 break;
+            case 4:
+                path = const_cast<char*>("gameimg/tiles/wall/door_anim_opening_f0.png");
+                break;
+            case 5:
+                path = const_cast<char*>("gameimg/props_itens/chest_closed_anim_f0.png");
+                break;
+            case 6:
+                path = const_cast<char*>("gameimg/props_itens/key_silver.png");
+                break;
             case 10:// monster
                 path = const_cast<char*>("gameimg/enemies/flyingcreature/fly_anim_spritesheet.png");
                 break;
