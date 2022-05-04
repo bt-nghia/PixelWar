@@ -26,9 +26,11 @@ public:
     static std::vector<ColliderComponent*> colliders;
     static std::vector<TileComponent*> tilecomponents;
     static std::vector<ColliderComponent*> bombs;
+    static std::vector<int> timecount;
     static std::vector<int> timetodestroy;
     static SDL_Renderer* renderer;
     static SDL_Event event;
+    // static std::vector<ColliderComponent*> enemies;
 
 private:
     bool isRunning;

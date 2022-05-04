@@ -12,14 +12,12 @@ SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Manager manager;
 
-auto& rock(manager.addEntity());
 auto& ene1(manager.addEntity());
 auto& ene2(manager.addEntity());
 auto& ene3(manager.addEntity());
 auto& ene4(manager.addEntity());
 auto& ene5(manager.addEntity());
 auto& ene6(manager.addEntity());
-// auto& key(manager.addEntity());
 auto& blood1(manager.addEntity());
 auto& blood2(manager.addEntity());
 auto& blood3(manager.addEntity());
@@ -28,10 +26,10 @@ auto& player(manager.addEntity());
 auto& hp(manager.addEntity());
 
 
+
 std::vector<ColliderComponent*> Game::colliders;
+// std::vector<ColliderComponent*> Game::enemies;
 std::vector<TileComponent*> Game::tilecomponents;
-std::vector<ColliderComponent*> Game::bombs;
-std::vector<int> Game::timetodestroy;
 
 bool gameover = false;
 
@@ -64,9 +62,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     // back ground
     bg = new BackGround("gameimg/tiles/floor/floor_5.png", 0, 0);
-
     //ECS
-
     ene1.addComponent<TransformComponent>(400, 400);
     ene1.addComponent<SpriteComponent>("gameimg/enemies/flyingcreature/fly_anim_spritesheet.png", true, 4);
     ene1.addComponent<ColliderComponent>("flyingcreature");
@@ -91,10 +87,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     ene6.addComponent<SpriteComponent>("gameimg/enemies/slime/slime_idle_spritesheet.png", true, 6);
     ene6.addComponent<ColliderComponent>("slime");
 
-    // key.addComponent<TransformComponent>(120, 120);
-    // key.addComponent<SpriteComponent>("gameimg/props_itens/key_silver.png");
-    // key.addComponent<ColliderComponent>("key");
-
     Map::LoadMap();
 
     hp.addComponent<TransformComponent>(10, 10, 16, 80, 2);
@@ -112,7 +104,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     blood4.addComponent<TransformComponent>(48 + 13 * 6 + 12, 10 + 4*2, 7, 13, 2);
     blood4.addComponent<SpriteComponent>("gameimg/blood.png");
 
-
     player.addComponent<TransformComponent>(392, 312);
     player.addComponent<SpriteComponent>("gameimg/heroes/knight/knight_run_spritesheet.png", true, 6);
     player.addComponent<KeyboardController>();
@@ -124,10 +115,6 @@ void Game::handleEvent() {
         player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
         player.getComponent<SpriteComponent>().setframes(6);
     }
-    // else if(player.getComponent<KeyboardController>().animations == 2) {
-    //     player.getComponent<SpriteComponent>().setTexture("gameimg/ex16x16.png");
-    //     player.getComponent<SpriteComponent>().setframes(1);
-    // }
     else {
         player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
         player.getComponent<SpriteComponent>().setframes(6);
@@ -152,35 +139,64 @@ void Game::update() {
     bg->UpdateBackGround();
     manager.refresh();
     manager.update();
-
+    std::vector<int> index;
     bool col = false;
     if(player.getComponent<TransformComponent>().hp >= 1) {
-        for(int i = 0; i < colliders.size()-1; i++) {
-            if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i])) {
-                Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
-                col = true;
-                if(colliders[i]->tag=="flyingcreature" || colliders[i]->tag=="goblin" || colliders[i]->tag=="slime") {
-                    // player.getComponent<TransformComponent>().setvelocity();
+        for(int i = 0; i < colliders.size(); i++) {
+            if(colliders[i]->tag!="player" && colliders[i]->tag!="ex") {
+                if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i])) {
+                    // Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
+                    col = true;
+                    if(colliders[i]->tag=="flyingcreature" || colliders[i]->tag=="goblin" || colliders[i]->tag=="slime") {
+                        // player.getComponent<TransformComponent>().setvelocity();
 
-                    if(player.getComponent<TransformComponent>().scale >= 4) {
-                        ene1.destroy();
-                        colliders.erase(colliders.begin() + i);
-                        tilecomponents.erase(tilecomponents.begin() + i);
-                    }
-                    else {
-                        player.getComponent<TransformComponent>().hurt();
-                        std::cout << player.getComponent<TransformComponent>().hp << "\n";
+                        if(player.getComponent<TransformComponent>().scale >= 4) {
+                            if(Collision::AABB(player.getComponent<ColliderComponent>(), ene1.getComponent<ColliderComponent>())) {
+                                ene1.getComponent<SpriteComponent>().setTexture("");
+                            }
+                            if(Collision::AABB(player.getComponent<ColliderComponent>(), ene2.getComponent<ColliderComponent>())) {
+                                ene2.getComponent<SpriteComponent>().setTexture("");
+                            }
+                            if(Collision::AABB(player.getComponent<ColliderComponent>(), ene3.getComponent<ColliderComponent>())) {
+                                ene3.getComponent<SpriteComponent>().setTexture("");
+
+                            }
+                            if(Collision::AABB(player.getComponent<ColliderComponent>(), ene4.getComponent<ColliderComponent>())) {
+                                // ene4.destroy();
+                                ene4.getComponent<SpriteComponent>().setTexture("");
+
+                            }
+                            if(Collision::AABB(player.getComponent<ColliderComponent>(), ene5.getComponent<ColliderComponent>())) {
+                                // ene5.destroy();
+                                ene5.getComponent<SpriteComponent>().setTexture("");
+
+                            }
+                            if(Collision::AABB(player.getComponent<ColliderComponent>(), ene6.getComponent<ColliderComponent>())) {
+                                // ene6.destroy();
+                                ene6.getComponent<SpriteComponent>().setTexture("");
+
+                            }
+                            index.push_back(i);
+                        }
+
+                        else {
+                            Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
+                            player.getComponent<TransformComponent>().hurt();
+                            std::cout << player.getComponent<TransformComponent>().hp << "\n";
+                        }    
                     }
                 }
-                // if(colliders[i]->tag=="key") {
-                //     colliders.erase(colliders.begin() + i);
-                //     tilecomponents.erase(tilecomponents.begin() + i);
-                // }
             }
         }
 
         if(col) {
             player.getComponent<TransformComponent>().setvelocity();
+            int cnt = 0;
+            for(auto i : index) {
+                tilecomponents.erase(tilecomponents.begin() + i - cnt);
+                colliders.erase(colliders.begin() + i - cnt);
+                cnt++;
+            }
             if(player.getComponent<TransformComponent>().hp==3) {blood4.destroy();}
             if(player.getComponent<TransformComponent>().hp==2) {blood3.destroy();}
             if(player.getComponent<TransformComponent>().hp==1) {blood2.destroy();}
@@ -214,9 +230,29 @@ void Game::AddTile(int id, int x, int y) {
 }
 
 void Game::PlantTheBomb(int x, int y) {
-    auto& bomb(manager.addEntity());
-    bomb.addComponent<TransformComponent>(x, y);
-    bomb.addComponent<SpriteComponent>("gameimg/bomb.png");
-    timetodestroy.push_back(4);// 4 second to explosion
-    bombs.push_back(&bomb.getComponent<ColliderComponent>());
+    auto& explo(manager.addEntity());
+    explo.addComponent<TransformComponent>(x-16*3, y-16*3, 32, 32, 4);
+    explo.addComponent<SpriteComponent>("gameimg/effectsnew/explosion_anim_spritesheet.png", true, 7);
+    explo.addComponent<ColliderComponent>("ex");
+    
+    // ene1.destroy();
+
+    if(Collision::AABB(explo.getComponent<ColliderComponent>(), ene1.getComponent<ColliderComponent>())) {
+        ene1.destroy();
+    }
+    if(Collision::AABB(explo.getComponent<ColliderComponent>(), ene2.getComponent<ColliderComponent>())) {
+        ene2.destroy();
+    }
+    if(Collision::AABB(explo.getComponent<ColliderComponent>(), ene3.getComponent<ColliderComponent>())) {
+        ene3.destroy();
+    }
+    if(Collision::AABB(explo.getComponent<ColliderComponent>(), ene4.getComponent<ColliderComponent>())) {
+        ene4.destroy();
+    }
+    if(Collision::AABB(explo.getComponent<ColliderComponent>(), ene5.getComponent<ColliderComponent>())) {
+        ene5.destroy();
+    }
+    if(Collision::AABB(explo.getComponent<ColliderComponent>(), ene6.getComponent<ColliderComponent>())) {
+        ene6.destroy();
+    }
 }

@@ -50,7 +50,12 @@ public:
                     transform->xyset(8);
                     break;
                 case SDLK_SPACE:
-                    // if(max_bombs > 0) {max_bombs--;}
+                    if(max_bombs > 0) {
+                        transform->scale = 4;
+                        transform->xyset(-16);
+                        Game::PlantTheBomb(transform->position.x, transform->position.y);
+                        max_bombs--;
+                    }
                     break;
                 default:
                     break;
@@ -81,9 +86,9 @@ public:
                     transform->xyset(-8);
                     break;
                 case SDLK_SPACE:
-                    if(max_bombs > 0) {
-                        Game::PlantTheBomb(transform->position.x, transform->position.y);
-                        max_bombs--;
+                    if(transform->scale==4) {
+                        transform->scale = 2;
+                        transform->xyset(16);
                     }
                     break;
                 default:
