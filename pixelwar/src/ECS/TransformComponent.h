@@ -7,6 +7,7 @@ public:
     Vector2D position;
     Vector2D velocity;
 
+    static int laststep;
     int level = 1;
     int speed = 2;
     int height = 16;

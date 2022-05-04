@@ -34,5 +34,6 @@ public:
 
 private:
     bool isRunning;
+    bool menustart;
     SDL_Window* window;
 };

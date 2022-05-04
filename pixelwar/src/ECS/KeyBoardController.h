@@ -3,13 +3,14 @@
 #include "../Game.h"
 #include "ECS.h"
 #include "Component.h"
+#include "TransformComponent.h"
 
 class KeyboardController : public Component {
 private:
     int lastkey = 0;
 
 public:
-    int max_bombs = 4;
+    int max_bombs = 3;
     int animations = 0;
     int time = 1;
 
@@ -46,8 +47,10 @@ public:
                     transform->velocity.y = 1;
                     break;
                 case SDLK_x:
-                    transform->scale = 1;
-                    transform->xyset(8);
+                    if(transform->scale==2) {
+                        transform->scale = 1;
+                        transform->xyset(8);
+                    }
                     break;
                 case SDLK_SPACE:
                     if(max_bombs > 0) {
