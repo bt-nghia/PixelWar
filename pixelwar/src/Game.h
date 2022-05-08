@@ -30,6 +30,8 @@ public:
     static std::vector<int> timetodestroy;
     static SDL_Renderer* renderer;
     static SDL_Event event;
+    static int keynum;
+    static int gamescore;
     // static std::vector<ColliderComponent*> enemies;
 
 private:

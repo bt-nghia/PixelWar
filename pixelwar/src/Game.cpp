@@ -19,6 +19,7 @@ auto& ene3(manager.addEntity());
 auto& ene4(manager.addEntity());
 auto& ene5(manager.addEntity());
 auto& ene6(manager.addEntity());
+auto& ene7(manager.addEntity());
 auto& blood1(manager.addEntity());
 auto& blood2(manager.addEntity());
 auto& blood3(manager.addEntity());
@@ -27,9 +28,10 @@ auto& player(manager.addEntity());
 auto& hp(manager.addEntity());
 
 
-
 std::vector<ColliderComponent*> Game::colliders;
 std::vector<TileComponent*> Game::tilecomponents;
+int Game::keynum = 0;
+int Game::gamescore = 0;
 
 bool gameover = false;
 
@@ -79,13 +81,17 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     ene2.addComponent<SpriteComponent>("gameimg/enemies/goblin/goblin_idle_spritesheet.png", true, 6);
     ene2.addComponent<ColliderComponent>("goblin");
 
-    ene3.addComponent<TransformComponent>(250, 140);
+    ene3.addComponent<TransformComponent>(150, 140);
     ene3.addComponent<SpriteComponent>("gameimg/enemies/slime/slime_idle_spritesheet.png", true, 6);
     ene3.addComponent<ColliderComponent>("slime");
 
-    ene6.addComponent<TransformComponent>(290, 150);
+    ene6.addComponent<TransformComponent>(440, 150);
     ene6.addComponent<SpriteComponent>("gameimg/enemies/slime/slime_idle_spritesheet.png", true, 6);
     ene6.addComponent<ColliderComponent>("slime");
+    
+    ene7.addComponent<TransformComponent>(640, 300);
+    ene7.addComponent<SpriteComponent>("gameimg/enemies/goblin/goblin_idle_spritesheet.png", true, 6);
+    ene7.addComponent<ColliderComponent>("goblin");
 
     Map::LoadMap();
 
@@ -109,7 +115,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     
-    menu = new BackGround("gameimg/tiles/floor/floor_5.png", 0, 0);
+    menu = new BackGround("gameimg/menulast.png", 0, 0);
 }
 
 void Game::handleEvent() {
@@ -175,8 +181,10 @@ void Game::update() {
             for(int i = 0; i < colliders.size(); i++) {
                 if(colliders[i]->tag!="player" && colliders[i]->tag!="ex") {
                     if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i])) {
-                        // Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
+                        Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
                         col = true;
+                        if(colliders[i]->tag=="chest" && keynum > 0) {gamescore+=100; keynum--;}
+                        if(colliders[i]->tag=="key") {keynum++;}
                         if(colliders[i]->tag=="flyingcreature" || colliders[i]->tag=="goblin" || colliders[i]->tag=="slime") {
                             // player.getComponent<TransformComponent>().setvelocity();
 
@@ -198,6 +206,9 @@ void Game::update() {
                                 }
                                 if(Collision::AABB(player.getComponent<ColliderComponent>(), ene6.getComponent<ColliderComponent>())) {
                                     ene6.getComponent<SpriteComponent>().setTexture("");
+                                }
+                                if(Collision::AABB(player.getComponent<ColliderComponent>(), ene7.getComponent<ColliderComponent>())) {
+                                    ene7.getComponent<SpriteComponent>().setTexture("");
                                 }
                                 index.push_back(i);
                             }
@@ -233,6 +244,7 @@ void Game::update() {
     else {
         menu->UpdateBackGround();
     }
+    std::cout << gamescore << "\n";
 }
 
 void Game::render() {
@@ -258,6 +270,7 @@ void Game::AddTile(int id, int x, int y) {
     auto& tile(manager.addEntity());
     tile.addComponent<TileComponent>(x, y, 31, 31, id);
     if(id==6) {tile.addComponent<ColliderComponent>("key");}
+    else if(id == 5) {tile.addComponent<ColliderComponent>("chest");}
     else {tile.addComponent<ColliderComponent>("wall");}
 }
 

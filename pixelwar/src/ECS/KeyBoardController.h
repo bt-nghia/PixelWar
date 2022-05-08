@@ -10,7 +10,7 @@ private:
     int lastkey = 0;
 
 public:
-    int max_bombs = 3;
+    int max_bombs = 4;
     int animations = 0;
     int time = 1;
 
