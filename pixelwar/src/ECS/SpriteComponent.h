@@ -17,6 +17,7 @@ private:
     int speed = 100;
     int frames = 0;
     int animIndex = 0;
+    int framescount = 0;
 
 public:
     SDL_RendererFlip flip = SDL_FLIP_NONE;
@@ -60,8 +61,15 @@ public:
     void update() override {
         if(animated) {
             srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
+            // if(srcRect.x == 0) {framescount++;}
         }
-
+        if(frames == 7) {
+            // setTexture("");
+            if(srcRect.x == 3 * srcRect.w) {framescount++;}
+            if(framescount == 3) {
+                setTexture("");
+            }
+        }
         // * animindex in img
         srcRect.y = animIndex * transfrom->height;
 

@@ -12,10 +12,10 @@ bool Collision::AABB(const SDL_Rect& recA, const SDL_Rect& recB) {
     else {
         return false;
     }
-    if((recA.y <= recB.y <= recA.y + recA.h) && ((recB.x <= recA.x) || (recB.x + recB.w >= recA.x + recA.w))) {
-            return true;
-    }
-    return false;
+    // if((recA.y <= recB.y <= recA.y + recA.h) && ((recB.x <= recA.x) || (recB.x + recB.w >= recA.x + recA.w))) {
+    //         return true;
+    // }
+    // return false;
     // int leftX = std::max(recA.x, recB.x);
     // int rightX = std::min(recA.x + recA.w, recB.x + recB.w);
     // int topY = std::max(recA.y, recB.y);

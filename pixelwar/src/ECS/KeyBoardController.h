@@ -10,7 +10,7 @@ private:
     int lastkey = 0;
 
 public:
-    int max_bombs = 4;
+    int max_bombs = INT_MAX;
     int animations = 0;
     int time = 1;
 
@@ -58,6 +58,7 @@ public:
                         transform->xyset(-16);
                         Game::PlantTheBomb(transform->position.x, transform->position.y);
                         max_bombs--;
+                        Game::bombcount++;
                     }
                     break;
                 default:

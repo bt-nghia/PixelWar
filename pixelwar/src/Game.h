@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include <iostream>
 #include <vector>
+#include "ECS/ECS.h"
 
 class ColliderComponent;
 class TileComponent;
@@ -21,18 +22,19 @@ public:
     void pickcharacter();
     bool running() { return isRunning; };
 
+    static void changeplayerimg(const char* path, int frames);
     static void PlantTheBomb(int x, int y);
     static void AddTile(int id, int x, int y);
     static std::vector<ColliderComponent*> colliders;
     static std::vector<TileComponent*> tilecomponents;
-    static std::vector<ColliderComponent*> bombs;
     static std::vector<int> timecount;
     static std::vector<int> timetodestroy;
     static SDL_Renderer* renderer;
     static SDL_Event event;
     static int keynum;
     static int gamescore;
-    // static std::vector<ColliderComponent*> enemies;
+    static bool winthegame;
+    static int bombcount;
 
 private:
     bool isRunning;

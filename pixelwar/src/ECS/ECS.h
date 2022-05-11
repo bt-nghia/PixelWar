@@ -91,16 +91,22 @@ public:
 class Manager {
 private:
     std::vector<std::unique_ptr<Entity>> entities;
-    
+    std::vector<std::unique_ptr<Entity>> bombs;
 public:
     void update() {
         for(auto& enti : entities) {
+            enti->update();
+        }
+        for(auto& enti : bombs) {
             enti->update();
         }
     }
 
     void draw() {
         for(auto& enti : entities) {
+            enti->draw();
+        }
+        for(auto& enti : bombs) {
             enti->draw();
         }
     }
@@ -119,5 +125,16 @@ public:
         std::unique_ptr<Entity> uPtr{e};
         entities.emplace_back(std::move(uPtr));
         return *e;
+    }
+
+    Entity& addBombEntity() {
+        Entity* e = new Entity();
+        std::unique_ptr<Entity> uPtr{e};
+        bombs.emplace_back(std::move(uPtr));
+        return *e;
+    }
+
+    int sizeEnitity() {
+        return entities.size();
     }
 };

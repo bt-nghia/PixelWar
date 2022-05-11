@@ -6,6 +6,8 @@
 #include "Collision.h"
 #include <iostream>
 #include <vector>
+#include <ctime>
+
 
 BackGround* bg;
 BackGround* menu;
@@ -30,8 +32,11 @@ auto& hp(manager.addEntity());
 
 std::vector<ColliderComponent*> Game::colliders;
 std::vector<TileComponent*> Game::tilecomponents;
+// std::vector<std::unique_ptr<Entity>> bom;
 int Game::keynum = 0;
 int Game::gamescore = 0;
+bool Game::winthegame = false;
+int Game::bombcount = 0;
 
 bool gameover = false;
 
@@ -115,7 +120,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     
-    menu = new BackGround("gameimg/menulast.png", 0, 0);
+    menu = new BackGround("gameimg/menuxx.png", 0, 0);
 }
 
 void Game::handleEvent() {
@@ -236,6 +241,7 @@ void Game::update() {
                 if(player.getComponent<TransformComponent>().hp==1) {blood2.destroy();}
                 if(player.getComponent<TransformComponent>().hp==0) {blood1.destroy();}
             }
+
         }
         else {
             gameover = true;
@@ -244,7 +250,8 @@ void Game::update() {
     else {
         menu->UpdateBackGround();
     }
-    std::cout << gamescore << "\n";
+    //check
+    std::cout << "score : " << gamescore << " bomcount :" << bombcount << " manager entity vector size :" << manager.sizeEnitity() <<   "\n";
 }
 
 void Game::render() {
@@ -275,8 +282,14 @@ void Game::AddTile(int id, int x, int y) {
 }
 
 void Game::PlantTheBomb(int x, int y) {
-    auto& explo(manager.addEntity());
-    explo.addComponent<TransformComponent>(x-16*3, y-16*3, 32, 32, 4);
+    auto& explo(manager.addBombEntity());
+    explo.addComponent<TransformComponent>(x-16*2, y-16*2, 32, 32, 4);
     explo.addComponent<SpriteComponent>("gameimg/effectsnew/explosion_anim_spritesheet.png", true, 7);
     explo.addComponent<ColliderComponent>("ex");
+}
+
+void Game::changeplayerimg(const char* path, int frames) {
+    player.getComponent<SpriteComponent>().setTexture(path);
+    player.getComponent<SpriteComponent>().setframes(frames);
+    player.getComponent<TransformComponent>().resetall(player.getComponent<TransformComponent>().position.x-16*3, player.getComponent<TransformComponent>().position.y-16*3, 32, 32, 2);
 }
