@@ -9,11 +9,12 @@ public:
 
     static int laststep;
     int level = 1;
-    int speed = 2;
-    int height = 16;
-    int width = 16;
-    int scale = 2;
+    float speed = 2;
+    float height = 16;
+    float width = 16;
+    float scale = 2;
     int hp = 4;
+    bool atkmode = false;
 
     TransformComponent() {
         position.Zero();
@@ -24,7 +25,7 @@ public:
         position.y = y;
     }
 
-    TransformComponent(float x, float y, int h, int w, int sc) {
+    TransformComponent(float x, float y, float h, float w, float sc) {
         position.x = x;
         position.y = y;
         height = h;
@@ -32,7 +33,7 @@ public:
         scale = sc;
     }
 
-    void resetall(float x, float y, int h, int w, int sc) {
+    void resetall(float x, float y, float h, float w, float sc) {
         position.x = x;
         position.y = y;
         height = h;
@@ -83,6 +84,14 @@ public:
         if(velocity.y != 0) {
             velocity.y = -velocity.y;
         }
+    }
+
+    void changeatkmodeon() {
+        atkmode = true;
+    }
+
+    void changeatkmodeoff() {
+        atkmode = false;
     }
 };
 

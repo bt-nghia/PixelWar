@@ -32,7 +32,6 @@ auto& hp(manager.addEntity());
 
 std::vector<ColliderComponent*> Game::colliders;
 std::vector<TileComponent*> Game::tilecomponents;
-// std::vector<std::unique_ptr<Entity>> bom;
 int Game::keynum = 0;
 int Game::gamescore = 0;
 bool Game::winthegame = false;
@@ -102,7 +101,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     hp.addComponent<TransformComponent>(10, 10, 16, 80, 2);
     hp.addComponent<SpriteComponent>("gameimg/uinew/health_ui.png");
-
+    
     blood1.addComponent<TransformComponent>(48, 18, 7, 13, 2);
     blood1.addComponent<SpriteComponent>("gameimg/blood.png");
 
@@ -115,8 +114,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     blood4.addComponent<TransformComponent>(48 + 13 * 6 + 12, 10 + 4*2, 7, 13, 2);
     blood4.addComponent<SpriteComponent>("gameimg/blood.png");
 
-    player.addComponent<TransformComponent>(392, 312);
-    player.addComponent<SpriteComponent>("gameimg/heroes/knight/knight_run_spritesheet.png", true, 6);
+    player.addComponent<TransformComponent>(392, 312, 56, 56, 1);
+    player.addComponent<SpriteComponent>("gameimg/char_blue.png", true, 6);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     
@@ -125,15 +124,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 void Game::handleEvent() {
     if(menustart==false) {
-        if(player.getComponent<KeyboardController>().animations == 1) {
-            player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_run_spritesheet.png");
-            player.getComponent<SpriteComponent>().setframes(6);
-        }
-        else {
-            player.getComponent<SpriteComponent>().setTexture("gameimg/heroes/knight/knight_idle_spritesheet.png");
-            player.getComponent<SpriteComponent>().setframes(6);
-        }
-
         SDL_PollEvent(&event);
         switch (event.type) {
         case SDL_QUIT:
@@ -188,32 +178,48 @@ void Game::update() {
                     if(Collision::AABB(player.getComponent<ColliderComponent>(), *colliders[i])) {
                         Collision::hit(player.getComponent<ColliderComponent>(), *colliders[i]);
                         col = true;
-                        if(colliders[i]->tag=="chest" && keynum > 0) {gamescore+=100; keynum--;}
+
+                        if(colliders[i]->tag == "door" && keynum > 0) {
+                            std::cout << "you win the game with score : " << gamescore << "\n";
+                            isRunning = false;
+
+                            break;
+                        }
+                        if(colliders[i]->tag=="chest"&& keynum > 0) {
+                            gamescore+=100; 
+                            keynum--;
+                        }
                         if(colliders[i]->tag=="key") {keynum++;}
                         if(colliders[i]->tag=="flyingcreature" || colliders[i]->tag=="goblin" || colliders[i]->tag=="slime") {
-                            // player.getComponent<TransformComponent>().setvelocity();
 
-                            if(player.getComponent<TransformComponent>().scale >= 4) {
+                            if(player.getComponent<TransformComponent>().atkmode) {
                                 if(Collision::AABB(player.getComponent<ColliderComponent>(), ene1.getComponent<ColliderComponent>())) {
                                     ene1.getComponent<SpriteComponent>().setTexture("");
+                                    gamescore+=100;
                                 }
                                 if(Collision::AABB(player.getComponent<ColliderComponent>(), ene2.getComponent<ColliderComponent>())) {
                                     ene2.getComponent<SpriteComponent>().setTexture("");
+                                    gamescore+=100;
                                 }
                                 if(Collision::AABB(player.getComponent<ColliderComponent>(), ene3.getComponent<ColliderComponent>())) {
                                     ene3.getComponent<SpriteComponent>().setTexture("");
+                                    gamescore+=100;
                                 }
                                 if(Collision::AABB(player.getComponent<ColliderComponent>(), ene4.getComponent<ColliderComponent>())) {
                                     ene4.getComponent<SpriteComponent>().setTexture("");
+                                    gamescore+=100;
                                 }
                                 if(Collision::AABB(player.getComponent<ColliderComponent>(), ene5.getComponent<ColliderComponent>())) {
                                     ene5.getComponent<SpriteComponent>().setTexture("");
+                                    gamescore+=100;
                                 }
                                 if(Collision::AABB(player.getComponent<ColliderComponent>(), ene6.getComponent<ColliderComponent>())) {
                                     ene6.getComponent<SpriteComponent>().setTexture("");
+                                    gamescore+=100;
                                 }
                                 if(Collision::AABB(player.getComponent<ColliderComponent>(), ene7.getComponent<ColliderComponent>())) {
                                     ene7.getComponent<SpriteComponent>().setTexture("");
+                                    gamescore+=100;
                                 }
                                 index.push_back(i);
                             }
@@ -251,7 +257,7 @@ void Game::update() {
         menu->UpdateBackGround();
     }
     //check
-    std::cout << "score : " << gamescore << " bomcount :" << bombcount << " manager entity vector size :" << manager.sizeEnitity() <<   "\n";
+    // std::cout << "score : " << gamescore << " key : " << keynum << "\n";
 }
 
 void Game::render() {
@@ -275,21 +281,9 @@ void Game::clean() {
 
 void Game::AddTile(int id, int x, int y) {
     auto& tile(manager.addEntity());
-    tile.addComponent<TileComponent>(x, y, 31, 31, id);
+    tile.addComponent<TileComponent>(x, y, 32, 32, id);
     if(id==6) {tile.addComponent<ColliderComponent>("key");}
     else if(id == 5) {tile.addComponent<ColliderComponent>("chest");}
+    else if(id == 4) {tile.addComponent<ColliderComponent>("door");}
     else {tile.addComponent<ColliderComponent>("wall");}
-}
-
-void Game::PlantTheBomb(int x, int y) {
-    auto& explo(manager.addBombEntity());
-    explo.addComponent<TransformComponent>(x-16*2, y-16*2, 32, 32, 4);
-    explo.addComponent<SpriteComponent>("gameimg/effectsnew/explosion_anim_spritesheet.png", true, 7);
-    explo.addComponent<ColliderComponent>("ex");
-}
-
-void Game::changeplayerimg(const char* path, int frames) {
-    player.getComponent<SpriteComponent>().setTexture(path);
-    player.getComponent<SpriteComponent>().setframes(frames);
-    player.getComponent<TransformComponent>().resetall(player.getComponent<TransformComponent>().position.x-16*3, player.getComponent<TransformComponent>().position.y-16*3, 32, 32, 2);
 }

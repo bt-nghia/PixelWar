@@ -31,15 +31,17 @@ public:
 
     SpriteComponent(const char* path, bool isAnimated, int frame) {
         animated = isAnimated;
-        // SDL_RendererFlip fLip = SDL_FLIP_HORIZONTAL;
         Animation idle = Animation(0, frame, 100);
-        Animation walk = Animation(0, frame, 100);
+        Animation walk = Animation(2, 8, 100);
+        Animation atk = Animation(1, 6, 100);
 
         animations.emplace("Idle", idle);
         animations.emplace("Walk", walk);
+        animations.emplace("Atk", atk);
 
         Play("Idle");
-        Play("Walk");
+        // Play("Walk");
+        // Play("Atk");
         setTexture(path);
     }
 
@@ -63,14 +65,14 @@ public:
             srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
             // if(srcRect.x == 0) {framescount++;}
         }
-        if(frames == 7) {
-            // setTexture("");
-            if(srcRect.x == 3 * srcRect.w) {framescount++;}
-            if(framescount == 3) {
-                setTexture("");
-            }
-        }
-        // * animindex in img
+        // if(frames == 7) {
+        //     // setTexture("");
+        //     if(srcRect.x == 3 * srcRect.w) {framescount++;}
+        //     if(framescount == 3) {
+        //         setTexture("");
+        //     }
+        // }
+        // // * animindex in img
         srcRect.y = animIndex * transfrom->height;
 
 

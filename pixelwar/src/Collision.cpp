@@ -2,10 +2,10 @@
 #include "ECS\ColliderComponent.h"
 
 bool Collision::AABB(const SDL_Rect& recA, const SDL_Rect& recB) {
-    if( recA.x + recA.w >= recB.x &&
-        recB.x + recB.w >= recA.x &&
-        recA.y + recA.h >= recB.y &&
-        recB.y + recB.h >= recA.y
+    if( recA.x + recA.w - 20 >= recB.x &&
+        recB.x + recB.w - 20 >= recA.x &&
+        recA.y + recA.h - 22 >= recB.y &&
+        recB.y + recB.h - 22 >= recA.y 
     ) {
         return true;
     }
@@ -30,6 +30,10 @@ bool Collision::AABB(const ColliderComponent& colA, const ColliderComponent& col
         return true;
     }
     return false;
+}
+
+bool Collision::PlayerHitEnemies(const SDL_Rect& player, const SDL_Rect& enemies) {
+    
 }
 
 void Collision::hit(const ColliderComponent& colA, const ColliderComponent& colB) {

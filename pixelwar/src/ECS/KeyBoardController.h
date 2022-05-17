@@ -32,39 +32,35 @@ public:
                     transform->velocity.x = -1;
                     lastkey = 1;
                     sprite->flip = SDL_FLIP_HORIZONTAL;
+                    sprite->Play("Walk");
                     break;
                 case SDLK_RIGHT:
                     animations = 1;
                     transform->velocity.x = 1;
                     lastkey = 0;
+                    sprite->Play("Walk");
                     break;
                 case SDLK_UP:
                     animations = 1;
                     transform->velocity.y = -1;
+                    sprite->Play("Walk");
                     break;
                 case SDLK_DOWN:
                     animations = 1;
                     transform->velocity.y = 1;
-                    break;
-                case SDLK_x:
-                    if(transform->scale==2) {
-                        transform->scale = 1;
-                        transform->xyset(8);
-                    }
+                    sprite->Play("Walk");
                     break;
                 case SDLK_SPACE:
-                    if(max_bombs > 0) {
-                        transform->scale = 4;
-                        transform->xyset(-16);
-                        Game::PlantTheBomb(transform->position.x, transform->position.y);
-                        max_bombs--;
-                        Game::bombcount++;
-                    }
+                    transform->changeatkmodeon();
+                    if(lastkey==1) {transform->position.x-=5;}
+                    if(lastkey==0) {transform->position.x+=5;}
+                    sprite->Play("Atk");
                     break;
                 default:
                     break;
             }
         }
+        
         if(Game::event.type == SDL_KEYUP) {
             animations = 0;
             switch(Game::event.key.keysym.sym) {
@@ -85,15 +81,10 @@ public:
                     transform->velocity.y = 0;
                     sprite->Play("Idle");
                     break;
-                case SDLK_x:
-                    transform->scale = 2;
-                    transform->xyset(-8);
-                    break;
                 case SDLK_SPACE:
-                    if(transform->scale==4) {
-                        transform->scale = 2;
-                        transform->xyset(16);
-                    }
+                    transform->changeatkmodeoff();
+                    transform->velocity.x = 0;
+                    sprite->Play("Idle");
                     break;
                 default:
                     break;
