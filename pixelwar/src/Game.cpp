@@ -28,6 +28,9 @@ auto& blood3(manager.addEntity());
 auto& blood4(manager.addEntity());
 auto& player(manager.addEntity());
 auto& hp(manager.addEntity());
+auto& chest1(manager.addEntity());
+auto& chest2(manager.addEntity());
+auto& chest3(manager.addEntity());
 
 
 std::vector<ColliderComponent*> Game::colliders;
@@ -69,6 +72,18 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     // back ground
     bg = new BackGround("gameimg/tiles/floor/floor_5.png", 0, 0);
     //ECS
+    chest1.addComponent<TransformComponent>(32* 4, 32* 18);
+    chest1.addComponent<SpriteComponent>("gameimg/props_itens/chest_closed_anim_f0.png");
+    chest1.addComponent<ColliderComponent>("chest");
+
+    chest2.addComponent<TransformComponent>(32* 14, 32* 1);
+    chest2.addComponent<SpriteComponent>("gameimg/props_itens/chest_closed_anim_f0.png");
+    chest2.addComponent<ColliderComponent>("chest");
+
+    chest3.addComponent<TransformComponent>(32* 21, 32* 18);
+    chest3.addComponent<SpriteComponent>("gameimg/props_itens/chest_closed_anim_f0.png");
+    chest3.addComponent<ColliderComponent>("chest");
+
     ene1.addComponent<TransformComponent>(500, 480);
     ene1.addComponent<SpriteComponent>("gameimg/enemies/flyingcreature/fly_anim_spritesheet.png", true, 4);
     ene1.addComponent<ColliderComponent>("flyingcreature");
@@ -186,6 +201,16 @@ void Game::update() {
                             break;
                         }
                         if(colliders[i]->tag=="chest"&& keynum > 0) {
+                            if(Collision::AABB(player.getComponent<ColliderComponent>(), chest1.getComponent<ColliderComponent>())) {
+                                chest1.getComponent<SpriteComponent>().setTexture("gameimg/props_itens/chest_open.png");
+                            }
+                            if(Collision::AABB(player.getComponent<ColliderComponent>(), chest2.getComponent<ColliderComponent>())) {
+                                chest2.getComponent<SpriteComponent>().setTexture("gameimg/props_itens/chest_open.png");
+                            }
+                            if(Collision::AABB(player.getComponent<ColliderComponent>(), chest3.getComponent<ColliderComponent>())) {
+                                chest3.getComponent<SpriteComponent>().setTexture("gameimg/props_itens/chest_open.png");
+                            }
+                            if(player.getComponent<TransformComponent>().hp < 4) {player.getComponent<TransformComponent>().hp++;}
                             gamescore+=100; 
                             keynum--;
                         }
@@ -242,10 +267,36 @@ void Game::update() {
                     colliders.erase(colliders.begin() + i - cnt);
                     cnt++;
                 }
-                if(player.getComponent<TransformComponent>().hp==3) {blood4.destroy();}
-                if(player.getComponent<TransformComponent>().hp==2) {blood3.destroy();}
-                if(player.getComponent<TransformComponent>().hp==1) {blood2.destroy();}
-                if(player.getComponent<TransformComponent>().hp==0) {blood1.destroy();}
+                if(player.getComponent<TransformComponent>().hp==4) {
+                    blood1.getComponent<SpriteComponent>().setTexture("gameimg/blood.png");
+                    blood2.getComponent<SpriteComponent>().setTexture("gameimg/blood.png");
+                    blood3.getComponent<SpriteComponent>().setTexture("gameimg/blood.png");
+                    blood4.getComponent<SpriteComponent>().setTexture("gameimg/blood.png");
+                }
+                else if(player.getComponent<TransformComponent>().hp==3) {
+                    blood1.getComponent<SpriteComponent>().setTexture("gameimg/blood.png");
+                    blood2.getComponent<SpriteComponent>().setTexture("gameimg/blood.png");
+                    blood3.getComponent<SpriteComponent>().setTexture("gameimg/blood.png");
+                    blood4.getComponent<SpriteComponent>().setTexture("");
+                }
+                else if(player.getComponent<TransformComponent>().hp==2) {
+                    blood1.getComponent<SpriteComponent>().setTexture("gameimg/blood.png");
+                    blood2.getComponent<SpriteComponent>().setTexture("gameimg/blood.png");
+                    blood3.getComponent<SpriteComponent>().setTexture("");
+                    blood4.getComponent<SpriteComponent>().setTexture("");
+                }
+                else if(player.getComponent<TransformComponent>().hp==1) {
+                    blood1.getComponent<SpriteComponent>().setTexture("gameimg/blood.png");
+                    blood2.getComponent<SpriteComponent>().setTexture("");
+                    blood3.getComponent<SpriteComponent>().setTexture("");
+                    blood4.getComponent<SpriteComponent>().setTexture("");
+                }
+                else {
+                    blood1.getComponent<SpriteComponent>().setTexture("");
+                    blood2.getComponent<SpriteComponent>().setTexture("");
+                    blood3.getComponent<SpriteComponent>().setTexture("");
+                    blood4.getComponent<SpriteComponent>().setTexture("");
+                }
             }
 
         }

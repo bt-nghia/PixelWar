@@ -23,7 +23,6 @@ public:
     bool running() { return isRunning; };
 
     static void changeplayerimg(const char* path, int frames);
-    static void PlantTheBomb(int x, int y);
     static void AddTile(int id, int x, int y);
     static std::vector<ColliderComponent*> colliders;
     static std::vector<TileComponent*> tilecomponents;
