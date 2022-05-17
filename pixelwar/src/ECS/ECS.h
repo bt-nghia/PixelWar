@@ -127,13 +127,6 @@ public:
         return *e;
     }
 
-    Entity& addBombEntity() {
-        Entity* e = new Entity();
-        std::unique_ptr<Entity> uPtr{e};
-        bombs.emplace_back(std::move(uPtr));
-        return *e;
-    }
-
     int sizeEnitity() {
         return entities.size();
     }

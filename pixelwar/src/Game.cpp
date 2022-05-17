@@ -6,7 +6,6 @@
 #include "Collision.h"
 #include <iostream>
 #include <vector>
-#include <ctime>
 
 
 BackGround* bg;
@@ -134,7 +133,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     
-    menu = new BackGround("gameimg/menuxx.png", 0, 0);
+    menu = new BackGround("gameimg/menucolor.png", 0, 0);
 }
 
 void Game::handleEvent() {
@@ -327,7 +326,7 @@ void Game::clean() {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
-    std::cout << "game cleaned\n";
+    // std::cout << "game cleaned\n";
 }
 
 void Game::AddTile(int id, int x, int y) {
