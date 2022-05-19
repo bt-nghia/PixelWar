@@ -2,8 +2,8 @@
 #include "ECS\ColliderComponent.h"
 
 bool Collision::AABB(const SDL_Rect& recA, const SDL_Rect& recB) {
-    if( recA.x + recA.w - 20 >= recB.x &&
-        recB.x + recB.w - 20 >= recA.x &&
+    if( recA.x + recA.w - 18 >= recB.x &&
+        recB.x + recB.w - 18 >= recA.x &&
         recA.y + recA.h - 22 >= recB.y &&
         recB.y + recB.h - 22 >= recA.y 
     ) {
