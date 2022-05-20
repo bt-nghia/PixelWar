@@ -10,6 +10,7 @@
 
 BackGround* bg;
 BackGround* menu;
+BackGround* youwinbg;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Manager manager;
@@ -62,6 +63,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             std::cout << "Renderer created\n";
         }
+        youwin = false;
         isRunning = true;
         menustart = true;
     }
@@ -70,6 +72,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     }
     // back ground
     bg = new BackGround("gameimg/tiles/floor/floor_5.png", 0, 0);
+    // bg = new BackGround("gameimg/winbg.png", 0, 0);
+    // youwinbg = new BackGround("gameimg/winbg.png", 0, 0);
+    menu = new BackGround("gameimg/menucolor.png", 0, 0);
+
     //ECS
     chest1.addComponent<TransformComponent>(32* 4, 32* 18);
     chest1.addComponent<SpriteComponent>("gameimg/props_itens/chest_closed_anim_f0.png");
@@ -107,7 +113,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     ene6.addComponent<SpriteComponent>("gameimg/enemies/slime/slime_idle_spritesheet.png", true, 6);
     ene6.addComponent<ColliderComponent>("slime");
     
-    ene7.addComponent<TransformComponent>(640, 300);
+    ene7.addComponent<TransformComponent>(670, 300);
     ene7.addComponent<SpriteComponent>("gameimg/enemies/goblin/goblin_idle_spritesheet.png", true, 6);
     ene7.addComponent<ColliderComponent>("goblin");
 
@@ -128,12 +134,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     blood4.addComponent<TransformComponent>(48 + 13 * 6 + 12, 10 + 4*2, 7, 13, 2);
     blood4.addComponent<SpriteComponent>("gameimg/blood.png");
 
-    player.addComponent<TransformComponent>(392, 312, 56, 56, 1);
+    player.addComponent<TransformComponent>(392, 312, 56, 56, 1.1);
     player.addComponent<SpriteComponent>("gameimg/char_blue.png", true, 6);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     
-    menu = new BackGround("gameimg/menucolor.png", 0, 0);
+    // menu = new BackGround("gameimg/menucolor.png", 0, 0);
 }
 
 void Game::handleEvent() {
@@ -195,8 +201,8 @@ void Game::update() {
 
                         if(colliders[i]->tag == "door" && keynum > 0) {
                             std::cout << "you win the game with score : " << gamescore << "\n";
-                            isRunning = false;
-
+                            // isRunning = false;
+                            youwin = true;
                             break;
                         }
                         if(colliders[i]->tag=="chest"&& keynum > 0) {
@@ -212,6 +218,7 @@ void Game::update() {
                             if(player.getComponent<TransformComponent>().hp < 4) {player.getComponent<TransformComponent>().hp++;}
                             gamescore+=100; 
                             keynum--;
+                            std::cout << gamescore << "\n";
                         }
                         if(colliders[i]->tag=="key") {keynum++;}
                         if(colliders[i]->tag=="flyingcreature" || colliders[i]->tag=="goblin" || colliders[i]->tag=="slime") {
@@ -246,6 +253,7 @@ void Game::update() {
                                     gamescore+=100;
                                 }
                                 index.push_back(i);
+                                std::cout << gamescore << "\n";
                             }
 
                             else {
@@ -313,6 +321,7 @@ void Game::update() {
 void Game::render() {
     SDL_RenderClear(renderer);
     if(menustart==false) {
+        
         bg->RenderBackGround();
         manager.draw();
     }
