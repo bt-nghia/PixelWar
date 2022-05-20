@@ -1,1 +1,0 @@
-bt-nghiauet & bt-nghia
