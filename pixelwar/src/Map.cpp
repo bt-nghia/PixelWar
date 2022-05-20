@@ -55,13 +55,26 @@ Map::~Map() {
 
 }
 
-void Map::LoadMap() {
-    for(int i = 0; i < 20; i++) {
-        for(int j = 0; j < 25; j++) {
-            if(mp[i][j] != 0) {
+void Map::LoadMap(int maplevel) {
+    if(maplevel==1) {
+        for(int i = 0; i < 20; i++) {
+            for(int j = 0; j < 25; j++) {
+                if(mp[i][j] != 0) {
+                    
+                    Game::AddTile(mp[i][j], j*32, i*32);
                 
-                Game::AddTile(mp[i][j], j*32, i*32);
-            
+                }
+            }
+        }
+    }
+    if(maplevel==2) {
+        for(int i = 0; i < 20; i++) {
+            for(int j = 0; j < 25; j++) {
+                if(mp2[i][j] != 0) {
+                    
+                    Game::AddTile(mp2[i][j], j*32, i*32);
+                
+                }
             }
         }
     }

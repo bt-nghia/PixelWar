@@ -117,7 +117,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     ene7.addComponent<SpriteComponent>("gameimg/enemies/goblin/goblin_idle_spritesheet.png", true, 6);
     ene7.addComponent<ColliderComponent>("goblin");
 
-    Map::LoadMap();
+    // map level 1
+    Map::LoadMap(1);
 
     hp.addComponent<TransformComponent>(10, 10, 16, 80, 2);
     hp.addComponent<SpriteComponent>("gameimg/uinew/health_ui.png");
