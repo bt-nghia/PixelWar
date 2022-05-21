@@ -30,6 +30,8 @@ nhân vật chạm quái vật mà nếu đang trong lúc không tấn công th�
 nếu có chìa khóa có thể mở rương (sinh mệnh mà chư full thì được +1 điểm sinh mệnh) hoặc cộng 100 điểm 
 có chìa khóa chúng ta có thể đi đên cửa và chiến thắng
 
+( link youtube : https://www.youtube.com/watch?v=3NUqOZNr5Po&ab_channel=nghiabui )
+
 4. KĨ thuật lập trình:
 (*)sử dụng thư viện SDL.h, render ảnh theo lớp, nhân vật bằng thư viện SDL_image
 

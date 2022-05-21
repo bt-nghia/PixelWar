@@ -66,8 +66,8 @@ public:
             switch(Game::event.key.keysym.sym) {
                 case SDLK_LEFT:
                     transform->velocity.x = 0;
-                    sprite->Play("Idle");
                     sprite->flip = SDL_FLIP_NONE;
+                    sprite->Play("Idle");
                     break;
                 case SDLK_RIGHT:
                     transform->velocity.x = 0;

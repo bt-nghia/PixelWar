@@ -40,8 +40,6 @@ public:
         animations.emplace("Atk", atk);
 
         Play("Idle");
-        // Play("Walk");
-        // Play("Atk");
         setTexture(path);
     }
 

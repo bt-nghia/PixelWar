@@ -202,7 +202,7 @@ void Game::update() {
 
                         if(colliders[i]->tag == "door" && keynum > 0) {
                             std::cout << "you win the game with score : " << gamescore << "\n";
-                            // isRunning = false;
+                            isRunning = false;
                             youwin = true;
                             break;
                         }

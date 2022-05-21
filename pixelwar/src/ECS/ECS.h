@@ -12,6 +12,7 @@ class Entity;
 
 using ComponentID = std::size_t;
 
+// inline function thay toan bo ham vao khi duoc ham duoc goi
 inline ComponentID getComponentTypeID() {
     static ComponentID lastID = 0;
     return lastID++;
@@ -25,8 +26,10 @@ template <typename T> inline ComponentID getComponentTypeID() noexcept {
 }
 
 constexpr std::size_t maxComponents = 32;
+//constexpr is a feature doing computing in compile time rather than run time
 
 using ComponentBitset = std::bitset<maxComponents>;
+// su dung bitset de tang hieu suat cho chuong trinh
 using ComponentArray = std::array<Component*, maxComponents>; 
 // luu cac component da co san 
 
@@ -91,22 +94,16 @@ public:
 class Manager {
 private:
     std::vector<std::unique_ptr<Entity>> entities;
-    std::vector<std::unique_ptr<Entity>> bombs;
+    // std::vector<std::unique_ptr<Entity>> bombs;
 public:
     void update() {
         for(auto& enti : entities) {
-            enti->update();
-        }
-        for(auto& enti : bombs) {
             enti->update();
         }
     }
 
     void draw() {
         for(auto& enti : entities) {
-            enti->draw();
-        }
-        for(auto& enti : bombs) {
             enti->draw();
         }
     }
