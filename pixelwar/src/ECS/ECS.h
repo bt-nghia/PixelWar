@@ -25,11 +25,11 @@ template <typename T> inline ComponentID getComponentTypeID() noexcept {
     return typeID;
 }
 
-constexpr std::size_t maxComponents = 32;
+constexpr std::size_t maxComponents = 100;
 //constexpr is a feature doing computing in compile time rather than run time
 
 using ComponentBitset = std::bitset<maxComponents>;
-// su dung bitset de tang hieu suat cho chuong trinh
+// su dung bitset de tang hieu suat cho chuong trinh luu duoi dang bit
 using ComponentArray = std::array<Component*, maxComponents>; 
 // luu cac component da co san 
 
@@ -77,14 +77,15 @@ public:
         std::unique_ptr<Component> uPtr{c};
         components.emplace_back(std::move(uPtr));
 
-        componentArray[getComponentTypeID<T>()] = c;
-        componentBitSet[getComponentTypeID<T>()] = true;
+        componentArray[getComponentTypeID<T>()] = c; // gan cho array co id nay la c
+        componentBitSet[getComponentTypeID<T>()] = true; // da co component 
 
         c->init();
         return *c;
     }
 
-    template<typename T> T& getComponent() const {
+    template<typename T> 
+    T& getComponent() const {
         auto ptr(componentArray[getComponentTypeID<T>()]);
         return *static_cast<T*>(ptr);
     }
