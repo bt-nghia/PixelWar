@@ -53,9 +53,12 @@ lấy dữ liệu từ public để sử dụng ngoài class
 
 5. Kết luận và hướng phát triển:
 - đây mới chỉ là một trò chơi chưa hoàn chỉnh:
-  dự định sẽ phát triển thêm map mới, quái vật có thể di chuyển tấn công người chơi khó đoán hơn, hiển thị điểm số lên màn hình, tối ưu bộ nhớ, quản lý lại các thực   thể vì thi thoảng chạy chương trình vẫn có lỗi phát sinh, làm thêm high score lưu vào file txt
+  dự định sẽ phát triển thêm map mới, quái vật có thể di chuyển tấn công người chơi khó đoán hơn, hiển thị điểm số lên màn hình, tối ưu bộ nhớ, quản lý lại các thực
+  thể vì thi thoảng chạy chương trình vẫn có lỗi phát sinh, làm thêm high score lưu vào file txt
 
 - Rút ra:
- Sử dụng các class tự định nghĩa được một kiểu dữ liệu cách chia chương trình thành nhiều file nhỏ cách tối ưu bộ nhớ tốc độ bằng con trỏ sử dụng tọa độ để xử lý các  va chạm, sử dụng git để lưu trữ src code.
+ Sử dụng các class tự định nghĩa được một kiểu dữ liệu cách chia chương trình thành nhiều file nhỏ cách tối ưu bộ nhớ tốc độ bằng con trỏ sử dụng tọa độ để xử lý các
+  va chạm, sử dụng git để lưu trữ src code.
  Cách tra mạng tham khảo tài liệu và sử dụng những gì mình cần để áp dụng vào chương trình của mình 
- ( NGUỒN THAM KHẢO CỦA https://www.youtube.com/watch?v=QQzAHcojEKg&list=PLhfAbcv9cehhkG7ZQK0nfIGJC_C-wSLrx&ab_channel=Let%27sMakeGames, một vài cách gỡ lỗi tìm được trên stack over flow etc..)
+ ( NGUỒN THAM KHẢO CỦA https://www.youtube.com/watch?v=QQzAHcojEKg&list=PLhfAbcv9cehhkG7ZQK0nfIGJC_C-wSLrx&ab_channel=Let%27sMakeGames, một vài cách gỡ lỗi tìm được 
+  trên stack over flow etc..)
