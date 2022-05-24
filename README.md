@@ -1,6 +1,6 @@
 # game pixelwar
-1. Cài đặt và sử dụng:
--Cách 1:
+1. Cài đặt và sử dụng: 
+ -Cách 1:
   - Sử dụng lệnh git clone để clone game về máy
     <git clone https://github.com/bt-nghia/laptrinhnangcao.git>
 
@@ -10,9 +10,9 @@
    Nhập lệnh: <cd pixelwar> để dẫn đến thư mục chứa file game
    Nhập lệnh: <mingw32-make> để dịch lại toàn bộ game
    Nhập lệnh: <.\main> để bắt đầu trò chơi
--Cách 2:
-  download file as zip và giải nén file 
-  có thể double click vào file main.exe để chạy trò chơi
+ -Cách 2:
+  - download file as zip và giải nén file 
+     có thể double click vào file main.exe để chạy trò chơi
   
 2. Mô tả:
 - Ở phần menu:
