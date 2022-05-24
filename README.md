@@ -1,4 +1,4 @@
-# laptrinhnangcao
+# game pixelwar
 1. Cài đặt và sử dụng:
 Cách 1:
   - Sử dụng lệnh git clone để clone game về máy
